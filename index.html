@@ -2,11 +2,30 @@
 <html>
 <head>
 	<script>
+	var chart = undefined;
+
+	function getDate(str) {
+		var date = parseInt(str.substring(0, 2));
+		var month = parseInt(str.substring(3, 5));
+		var year = 2000 + parseInt(str.substring(6, 8));
+
+		return new Date(year, month, date);
+	}
+	function addData(data) {
+		var dps = data.Sheet1;
+		for (var i = 0; i < dps.length; i++) {
+			chart.options.data[0].dataPoints.push({
+				x: getDate(dps[i][0]),
+				y: parseInt(dps[i][3])
+			});
+		}
+		chart.render();
+		console.log(chart)
+	}
 	window.onload = function () {
 
-		var dataPoints = []; // dataPoints
-		var chart = new CanvasJS.Chart("chartContainer", {
-			title :{
+		chart = new CanvasJS.Chart("chartContainer", {
+			title: {
 				text: "Temperature Graph"
 			},
 			axisY: {
@@ -16,50 +35,12 @@
 			},      
 			data: [{
 				type: "line",
-				dataPoints: dataPoints
+				dataPoints: []
 			}]
 		});
-
-		function addData(data) {
-			var dps = data.Sheet1;
-			for (var i = 0; i < dps.length; i++) {
-				dataPoints.push({
-					x: dps[i][0],
-					y: dps[i][3]
-				});
-			}
-			chart.render();
-		}
+		chart.render()
 
 		$.getJSON("https://api.myjson.com/bins/bhmxe", addData);
-
-		// var xVal = 0;
-		// var yVal = 20; 
-		// var updateInterval = 1000;
-		// var dataLength = 20; // number of dataPoints visible at any point
-
-		// var updateChart = function (count) {
-
-		// 	count = count || 1;
-
-		// 	for (var j = 0; j < count; j++) {
-		// 		yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
-		// 		dps.push({
-		// 			x: xVal,
-		// 			y: yVal
-		// 		});
-		// 		xVal++;
-		// 	}
-
-		// 	if (dps.length > dataLength) {
-		// 		dps.shift();
-		// 	}
-
-		// 	chart.render();
-		// };
-
-		// updateChart(dataLength);
-		// setInterval(function(){updateChart()}, updateInterval);
 		
 	}
 
