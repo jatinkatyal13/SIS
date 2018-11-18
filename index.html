@@ -5,9 +5,7 @@
 	var chart = undefined;
 
 	function getDate(str) {
-		var date = parseInt(str.substring(0, 2));
-		var month = parseInt(str.substring(3, 5));
-		var year = 2000 + parseInt(str.substring(6, 8));
+		var [date, month, year] = str.split('-');
 
 		return new Date(year, month, date);
 	}
