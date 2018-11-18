@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script>
+	window.onload = function () {
+
+		var dataPoints = []; // dataPoints
+		var chart = new CanvasJS.Chart("chartContainer", {
+			title :{
+				text: "Temperature Graph"
+			},
+			axisY: {
+				title: "Temperature",
+				includeZero: false,
+				suffix: " °C"
+			},      
+			data: [{
+				type: "line",
+				dataPoints: dataPoints
+			}]
+		});
+
+		function addData(data) {
+			var dps = data.Sheet1;
+			for (var i = 0; i < dps.length; i++) {
+				dataPoints.push({
+					x: dps[i][0],
+					y: dps[i][3]
+				});
+			}
+			chart.render();
+		}
+
+		$.getJSON("https://api.myjson.com/bins/bhmxe", addData);
+
+		// var xVal = 0;
+		// var yVal = 20; 
+		// var updateInterval = 1000;
+		// var dataLength = 20; // number of dataPoints visible at any point
+
+		// var updateChart = function (count) {
+
+		// 	count = count || 1;
+
+		// 	for (var j = 0; j < count; j++) {
+		// 		yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
+		// 		dps.push({
+		// 			x: xVal,
+		// 			y: yVal
+		// 		});
+		// 		xVal++;
+		// 	}
+
+		// 	if (dps.length > dataLength) {
+		// 		dps.shift();
+		// 	}
+
+		// 	chart.render();
+		// };
+
+		// updateChart(dataLength);
+		// setInterval(function(){updateChart()}, updateInterval);
+		
+	}
+
+	</script>
+	<title>Smart Irrigation System</title>
+</head>
+<body>
+	<div>
+		<h1>
+			<center>Smart Irrigation System</center>
+
+		</h1>
+	</div>
+	<div id="chartContainer" style="height: 370px; width:35%;"></div>
+	
+	<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+	<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</body>
+</html>
